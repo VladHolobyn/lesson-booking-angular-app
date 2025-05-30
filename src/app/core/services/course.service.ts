@@ -1,6 +1,5 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
 import {CourseRequest} from '../models/courses/course-request.interface';
 import {Course} from '../models/courses/course.interface';
 
@@ -8,18 +7,17 @@ import {Course} from '../models/courses/course.interface';
   providedIn: 'root'
 })
 export class CourseService {
-
   constructor(private http: HttpClient) {}
 
-  getUserCourses(): Observable<Course[]> {
+  getUserCourses() {
     return this.http.get<Course[]>('api/courses')
   }
 
-  getCourseDetails(id: number): Observable<Course> {
+  getCourseDetails(id: number) {
     return this.http.get<Course>(`api/courses/${id}`)
   }
 
-  createCourse(data: CourseRequest): Observable<any> {
+  createCourse(data: CourseRequest) {
     return this.http.post(`api/courses`, data);
   }
 

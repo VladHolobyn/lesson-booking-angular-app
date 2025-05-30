@@ -1,6 +1,6 @@
 @if (course) {
   <div class="aside" [ngClass]="{close: isToggle}">
-    <header class="header" style="margin-bottom: 0">
+    <header class="header course__header" style="margin-bottom: 0">
       <div class="header__row header__row_centered">
         <button class="icon-stroked-button" mat-stroked-button routerLink="/">
           <mat-icon class="stroked-button-icon">keyboard_backspace</mat-icon>
@@ -36,6 +36,9 @@
             }
           </mat-menu>
         }
+      </div>
+      <div class="description">
+        <p>Опис:</p>{{course.description}}
       </div>
     </header>
 
@@ -78,11 +81,12 @@
                 }
               </div>
             </div>
+
             <div class="students">
               <div class="aside__list-named-header">
                 <p class="list-title">Студенти ({{students?.length || 0 }}):</p>
                 <div class="aside__list-header-actions">
-                  @if (selectedStudent && selectedStudent.state === EnrollmentState.ACTIVE) {
+                  @if (selectedStudent && selectedStudent.state === EnrollmentState.ACTIVE && course.state !== CourseState.ARCHIVED) {
                     @if (responsiveService.isPhoneOrTabletScreen()) {
                       <button class="icon-stroked-button" mat-stroked-button (click)="graduateStudent(selectedStudent.id)">
                         <mat-icon  class="stroked-button-icon">verified</mat-icon>
@@ -98,7 +102,6 @@
                         <mat-icon>person_remove</mat-icon> Відрахувати
                       </button>
                     }
-
                   }
                 </div>
               </div>
@@ -119,9 +122,5 @@
         </mat-tab>
       }
     </mat-tab-group>
-  </div>
-
-
-  <div class="main-content">
   </div>
 }

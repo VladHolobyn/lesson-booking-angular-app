@@ -7,7 +7,6 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {UserRole} from '../../core/models/auth/user-role';
-import {CourseRequest} from '../../core/models/courses/course-request.interface';
 import {CourseState} from '../../core/models/courses/course-state';
 import {Course} from '../../core/models/courses/course.interface';
 import {Invitation} from '../../core/models/students/invitation.interface';
@@ -45,23 +44,23 @@ import {InvitationDialogComponent} from './dialogs/invitation-dialog/invitation-
 })
 export class CourseDetailsComponent implements OnInit{
   protected readonly CourseState = CourseState;
+  protected readonly EnrollmentState = EnrollmentState;
   protected readonly UserRole = UserRole;
-
-  course?: Course;
-
-  invitations?: Invitation[];
-  students?: Student[];
 
   readonly dialog = inject(MatDialog);
   readonly courseService = inject(CourseService)
   readonly authService = inject(AuthService)
   readonly membershipService = inject(MembershipService)
   readonly responsiveService = inject(ResponsiveService)
+  readonly route = inject(ActivatedRoute);
+  readonly router = inject(Router);
 
+  course?: Course;
+  invitations?: Invitation[];
+  students?: Student[];
+  selectedStudent?: Student;
   isToggle: boolean = false;
 
-  constructor(private route: ActivatedRoute,
-              private router: Router) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -78,25 +77,19 @@ export class CourseDetailsComponent implements OnInit{
       width: '100%'
     }).afterClosed().subscribe({
       next: value => {
-        console.log(value)
         if (value) {
-          const patchBody = this.getBodyForCourse(this.course!, value);
-          this.courseService.updateCourse(this.course!.id, patchBody).subscribe({
+          const body = {...this.course, ...value};
+          this.courseService.updateCourse(this.course!.id, body).subscribe({
             next: () => this.loadCourseData(this.course!.id),
-            error: err => console.error("Unable to update")
+            error: () => console.error("Unable to update")
           })
         }
       }
     })
   }
 
-  private getBodyForCourse(old: Course, updated: CourseRequest): Partial<CourseRequest> {
-    return {...old, ...updated};
-  }
-
   removeCourse() {
     this.dialog.open(ConfirmDialogComponent, {
-      data: {message: 'Are you sure you want to delete this course?'},
       minWidth: 300,
       maxWidth: 400,
       width: '100%'
@@ -105,7 +98,7 @@ export class CourseDetailsComponent implements OnInit{
         if (value) {
           this.courseService.deleteCourse(this.course!.id).subscribe({
             next: () => this.router.navigate(["/"]),
-            error: err => console.error("Unable to delete")
+            error: () => console.error("Unable to delete")
           })
         }
       }
@@ -116,7 +109,7 @@ export class CourseDetailsComponent implements OnInit{
     if (this.course){
       this.courseService.approveCourse(this.course.id).subscribe({
         next: () => this.loadCourseData(this.course!.id),
-        error: () => console.error("error")
+        error: () => console.error("Course is not approved")
       })
     }
   }
@@ -125,7 +118,7 @@ export class CourseDetailsComponent implements OnInit{
     if (this.course){
       this.courseService.archiveCourse(this.course.id).subscribe({
         next: () => this.loadCourseData(this.course!.id),
-        error: () => console.error("error")
+        error: () => console.error("Course is not archived")
       })
     }
   }
@@ -133,17 +126,16 @@ export class CourseDetailsComponent implements OnInit{
   private loadCourseData(id: number) {
     this.courseService.getCourseDetails(id).subscribe({
       next: value => {
-        this.course = value
+        this.course = value;
         this.loadCourseInvitations();
         this.loadCourseStudents();
       },
-      error: () => console.error("Error!")
+      error: () => console.error("Cannot load course data")
     })
   }
 
 
   // ------------------ Students
-
 
   openInvitationDialog() {
     this.dialog.open(InvitationDialogComponent, {
@@ -155,7 +147,7 @@ export class CourseDetailsComponent implements OnInit{
         if (value) {
           this.membershipService.inviteUser(value, this.course!.id).subscribe({
               next: () => this.loadCourseInvitations(),
-              error: () => console.error("error")
+              error: () => console.error("Cannot send an invitation")
             })
         }
       }
@@ -168,7 +160,7 @@ export class CourseDetailsComponent implements OnInit{
         if (value) {
           this.membershipService.cancelInvitation(id).subscribe({
             next: () => this.loadCourseInvitations(),
-            error: () => console.error("error")
+            error: () => console.error("Invitation is not canceled")
           })
         }
       }
@@ -181,8 +173,11 @@ export class CourseDetailsComponent implements OnInit{
       next: value => {
         if (value) {
           this.membershipService.graduateStudent(enrollmentId).subscribe({
-            next: () => this.loadCourseStudents(),
-            error: () => console.error("error")
+            next: () => {
+              this.loadCourseStudents();
+              this.selectedStudent = undefined;
+            },
+            error: () => console.error("Student is not graduated")
           })
         }
       }
@@ -194,52 +189,39 @@ export class CourseDetailsComponent implements OnInit{
       next: value => {
         if (value) {
           this.membershipService.removeStudentFromCourse(enrollmentId).subscribe({
-            next: () => this.loadCourseStudents(),
-            error: () => console.error("error")
+            next: () => {
+              this.loadCourseStudents();
+              this.selectedStudent = undefined;
+            },
+            error: () => console.error("Student is not removed")
           })
         }
       }
     });
   }
 
-
-
+  selectStudent(student: Student) {
+    this.selectedStudent = student;
+  }
 
 
   private loadCourseStudents() {
     if (this.course) {
       this.membershipService.getCourseStudents(this.course.id).subscribe({
         next: value => this.students = value,
-        error: () => console.error("Error!")
+        error: () => console.error("Cannot load course students!")
       })
     }
   }
+
   private loadCourseInvitations() {
     this.membershipService.getCourseInvitations(this.course!.id).subscribe({
       next: value => {
-        console.log(value)
         this.invitations = value
       },
-      error: () => console.error("Error!")
+      error: () => console.error("Cannot load course invitations!")
     })
   }
-
-
-
-
-
-
-
-  protected readonly EnrollmentState = EnrollmentState;
-
-
-
-  selectedStudent?: Student;
-
-  selectStudent(student: Student) {
-    this.selectedStudent = student;
-  }
-
 
   getDate(str: string) {
     return new Date(str);

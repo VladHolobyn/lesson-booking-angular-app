@@ -1,13 +1,18 @@
-.dialog-title {
-  text-align: center;
+.form {
+  margin-top: 12px;
 }
-
 .form__field {
   width: 100%;
 }
 
 .selected-user{
+  display: flex;
+  gap: 8px;
   border-radius: 10px;
   border: 1px solid #000;
   padding: 8px;
+}
+
+.confirmation {
+  margin: 0 0 10px 0;
 }

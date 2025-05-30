@@ -23,7 +23,7 @@ import {
 export class ConfirmDialogComponent implements OnInit {
   readonly data? =inject(MAT_DIALOG_DATA)
 
-  message:string = 'Ви впевненні, що хочите виконати цю дію?'
+  message:string = 'Ви впевненні, що хочете виконати цю дію?'
 
   ngOnInit(): void {
     if (this.data?.message) {

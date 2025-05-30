@@ -1,8 +1,8 @@
-<h2 class="dialog-title" mat-dialog-title>Invite student</h2>
+<h2 class="dialog-title" mat-dialog-title>Запросити користувача</h2>
 <mat-dialog-content>
   <form class="form" [formGroup]="form" (input)="onInput()">
     <mat-form-field class="form__field">
-      <mat-label>User email</mat-label>
+      <mat-label>Пошта користувача</mat-label>
       <input matInput formControlName="email" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
         @for (user of filteredUsers(); track user.id) {
@@ -14,21 +14,21 @@
       </mat-autocomplete>
     </mat-form-field>
   </form>
-  @for (user of filteredUsers(); track user.id) {
-    <small>{{user.email}}</small>1
-  }
+
   @if (selectedUser) {
-    <p>Do you want to invite this user?</p>
+    <p class="confirmation">Ви дійсно хочите запростити цього користувача?</p>
     <div class="selected-user">
-      <div>{{selectedUser.firstName}} {{selectedUser.lastName}}</div>
-      <small>{{selectedUser.email}}</small>
+      <img class="user__image" width="35px" src="../../../assets/generic-avatar.svg" alt="avatar">
+      <div class="">
+        <div>{{selectedUser.firstName}} {{selectedUser.lastName}}</div>
+        <small>{{selectedUser.email}}</small>
+      </div>
     </div>
   }
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="false">Close</button>
+  <button mat-button [mat-dialog-close]="false">Закрити</button>
   @if (selectedUser) {
-    <button mat-button (click)="inviteUser()">Yes</button>
+    <button mat-button (click)="inviteUser()">Запросити</button>
   }
-
 </mat-dialog-actions>

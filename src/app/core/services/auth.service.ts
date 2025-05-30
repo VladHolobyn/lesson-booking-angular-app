@@ -13,8 +13,7 @@ export class AuthService {
   private user?: User;
   constructor(private http: HttpClient) { }
 
-
-  register(userData: RegisterRequest): Observable<any> {
+  register(userData: RegisterRequest) {
     return this.http.post(`api/auth/register`, userData);
   }
 

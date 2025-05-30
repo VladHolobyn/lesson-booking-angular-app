@@ -23,28 +23,57 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 1, firstName: 'Охрім', lastName: 'Франко', email: 'test@gmail.com', role: UserRole.INSTRUCTOR },
       { id: 2, firstName: 'Югина', lastName: 'Гришко', email: 'test2@gmail.com', role: UserRole.STUDENT },
       { id: 3, firstName: 'Ядвіга', lastName: 'Захарчук', email: 'test3@gmail.com', role: UserRole.STUDENT },
+      { id: 4, firstName: 'Марія', lastName: 'Рябовіл', email: 'test4@gmail.com', role: UserRole.STUDENT },
+      { id: 5, firstName: 'Владислава', lastName: 'Новохатько', email: 'test5@gmail.com', role: UserRole.STUDENT },
+      { id: 6, firstName: 'Твердислав', lastName: 'Юрженко', email: 'test6@gmail.com', role: UserRole.STUDENT },
+      { id: 7, firstName: 'Ладислава', lastName: 'Шумлянська', email: 'test7@gmail.com', role: UserRole.STUDENT },
+      { id: 8, firstName: 'Живосил', lastName: 'Степура', email: 'test8@gmail.com', role: UserRole.STUDENT },
+      { id: 9, firstName: 'Щастислав', lastName: 'Хмельницький', email: 'test9@gmail.com', role: UserRole.STUDENT },
     ];
-
     const courses: Course[] = [
-      {id: 1, name: 'English', description: '1', state: CourseState.APPROVED, instructor: users[0]},
+      {id: 1, name: 'English', state: CourseState.APPROVED, instructor: users[0], description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,'},
       {id: 2, name: 'Math', description: '1', state: CourseState.ARCHIVED, instructor: users[0]},
     ]
-
     const invitations = [
       {
         id: 1, course: courses[0], courseId: courses[0].id, userId: users[1].id,
         student: users[1], instructor: users[0], sentAt: new Date().toDateString()
-      }
+      },
+      {
+        id: 1, course: courses[0], courseId: courses[0].id, userId: users[8].id,
+        student: users[8], instructor: users[0], sentAt: new Date().toDateString()
+      },
     ];
-
     const enrollments = [
       {
-        id: 1, state: EnrollmentState.ACTIVE,
+        id: 1, state: EnrollmentState.ACTIVE, startedAt: new Date().toDateString(),
         course: courses[0], courseId: courses[0].id, student: users[2],
-        startedAt: new Date().toDateString()
-      }
+      },
+      {
+        id: 2, state: EnrollmentState.ACTIVE, startedAt: new Date().toDateString(),
+        course: courses[0], courseId: courses[0].id, student: users[4],
+      },
+      {
+        id: 3, state: EnrollmentState.COMPLETED, startedAt: new Date().toDateString(),
+        course: courses[0], courseId: courses[0].id, student: users[5],
+      },
+      {
+        id: 4, state: EnrollmentState.ACTIVE, startedAt: new Date().toDateString(),
+        course: courses[0], courseId: courses[0].id, student: users[6],
+      },
+      {
+        id: 5, state: EnrollmentState.COMPLETED, startedAt: new Date().toDateString(),
+        course: courses[1], courseId: courses[1].id, student: users[5],
+      },
+      {
+        id: 6, state: EnrollmentState.ACTIVE, startedAt: new Date().toDateString(),
+        course: courses[1], courseId: courses[1].id, student: users[6],
+      },
+      {
+        id: 7, state: EnrollmentState.ACTIVE, startedAt: new Date().toDateString(),
+        course: courses[0], courseId: courses[0].id, student: users[7],
+      },
     ];
-
     const slots: Slot[] = [
       {
         id: 1, state: SlotState.DRAFT,
@@ -63,7 +92,6 @@ export class InMemoryDataService implements InMemoryDbService {
 
   post(reqInfo: RequestInfo) {
     const { url, req  } = reqInfo;
-
 
     if (url.endsWith('/login')) {
       const body = reqInfo.utils.getJsonBody(req);
@@ -127,7 +155,6 @@ export class InMemoryDataService implements InMemoryDbService {
       }));
 
     }
-
     else if (url.endsWith('/invitations')) {
       const body = reqInfo.utils.getJsonBody(req);
       const invitations =  (reqInfo.utils.getDb() as any).invitations;
@@ -182,8 +209,6 @@ export class InMemoryDataService implements InMemoryDbService {
         body: {}
       }));
     }
-
-
     else if (url.endsWith('/slots')) {
       const body = reqInfo.utils.getJsonBody(req) as SlotRequest;
       const slots =  (reqInfo.utils.getDb() as any).slots;
@@ -257,7 +282,7 @@ export class InMemoryDataService implements InMemoryDbService {
 
 
   get(reqInfo: RequestInfo) {
-    const { collectionName } = reqInfo;
+    const {url, collectionName } = reqInfo;
 
     if (collectionName === 'slots') {
       const startTimeStr = reqInfo.query.get('startDate')![0];
@@ -280,7 +305,8 @@ export class InMemoryDataService implements InMemoryDbService {
         body: slots,
         status: 200,
       }));
-    } else if (collectionName === 'courses') {
+    }
+    else if (url.endsWith('/courses')) {
       const enrollments = (reqInfo.utils.getDb() as any).enrollments;
       let courses = (reqInfo.utils.getDb() as any).courses;
 
@@ -299,9 +325,9 @@ export class InMemoryDataService implements InMemoryDbService {
         status: 200,
       }));
     }
-
     return undefined;
   }
+
 
   put(reqInfo: RequestInfo) {
     const { req, collectionName } = reqInfo;
@@ -320,7 +346,6 @@ export class InMemoryDataService implements InMemoryDbService {
         body: {}
       }));
     }
-
     return undefined;
   }
 }

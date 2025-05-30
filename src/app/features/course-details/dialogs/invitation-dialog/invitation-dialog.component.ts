@@ -39,30 +39,25 @@ import {UserService} from '../../../../core/services/user.service';
   styleUrl: './invitation-dialog.component.scss'
 })
 export class InvitationDialogComponent {
+  readonly userService = inject(UserService)
+  readonly data? = inject(MAT_DIALOG_DATA);
+  readonly dialogRef = inject(MatDialogRef<InvitationDialogComponent>)
+
   form: FormGroup = new FormGroup({
     email: new FormControl('', Validators.required),
   })
 
-  filteredUsers = signal<User[]>([])
   selectedUser?: User;
+  filteredUsers = signal<User[]>([])
 
-  data?: any = inject(MAT_DIALOG_DATA);
-  userService = inject(UserService)
-  constructor(
-    private dialogRef: MatDialogRef<InvitationDialogComponent>,
-  ) {}
 
   onInput() {
     if (this.form.valid) {
       this.userService.findUserByEmail(this.form.value.email).subscribe({
-        next: value => {
-          this.filteredUsers.set(value)
-        },
+        next: value => this.filteredUsers.set(value),
         error: err => console.log(err)
       })
-      console.log(this.filteredUsers())
     }
-
   }
 
   onOptionSelected($event: MatAutocompleteSelectedEvent) {
