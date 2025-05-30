@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatAnchor, MatButton, MatIconButton} from '@angular/material/button';
 import {MatFormFieldModule, MatLabel} from '@angular/material/form-field';
@@ -25,29 +25,27 @@ import {AuthService} from '../../../core/services/auth.service';
 })
 export class RegistrationComponent {
 
-  showPassword: boolean = false;
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+
 
   form: FormGroup = new FormGroup({
-    firstname: new FormControl('', Validators.required),
-    lastname: new FormControl('', Validators.required),
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
     password: new FormControl('', [Validators.required, Validators.min(6)]),
     email: new FormControl('', [Validators.required, Validators.email])
   })
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  showPassword: boolean = false;
+
+
 
   onSubmit() {
     if (this.form.valid) {
       this.authService.register(this.form.value).subscribe({
-        next: ()=> {
-          this.router.navigate(['/auth/login'])
-        },
-        error: () => {
-          console.log("Error")
-        }
+        next: ()=> this.router.navigate(['/auth/login']),
+        error: () => console.log("Error")
       })
     } else {
       this.form.markAllAsTouched();

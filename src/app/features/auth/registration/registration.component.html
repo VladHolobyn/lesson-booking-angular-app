@@ -1,21 +1,9 @@
 <div class="form__wrapper">
-  <h1 class="form__name">Registration</h1>
+  <h1 class="form__name page-title">Реєстрація</h1>
   <form class="form" [formGroup]="form" (submit)="onSubmit()">
 
-    <mat-form-field appearance="outline" class="form__field">
-      <mat-label>FirstName</mat-label>
-      <input matInput formControlName="firstname" placeholder="Vladyslav...">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-
     <mat-form-field appearance="outline" class="form__field" >
-      <mat-label>LastName</mat-label>
-      <input matInput formControlName="lastname" placeholder="Holobyn...">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form__field" >
-      <mat-label>Email</mat-label>
+      <mat-label>Пошта</mat-label>
       <input matInput formControlName="email" placeholder="test@pnu.edu.ua">
       <mat-icon matSuffix>email</mat-icon>
       @if (form.get('email')?.invalid) {
@@ -23,18 +11,29 @@
       }
     </mat-form-field>
 
+    <mat-form-field appearance="outline" class="form__field">
+      <mat-label>Ім'я</mat-label>
+      <input matInput formControlName="firstName" placeholder="Vladyslav...">
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="form__field" >
-      <mat-label>Enter your password</mat-label>
+      <mat-label>Пароль</mat-label>
       <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'" />
-      <button
-        mat-icon-button matSuffix
-        (click)="togglePassword($event)"
-      >
+      <button mat-icon-button matSuffix (click)="togglePassword($event)">
         <mat-icon>{{showPassword ? 'visibility': 'visibility_off'}}</mat-icon>
       </button>
     </mat-form-field>
 
-    <button mat-flat-button>Submit</button>
+    <mat-form-field appearance="outline" class="form__field" >
+      <mat-label>Прізвище</mat-label>
+      <input matInput formControlName="lastName" placeholder="Holobyn...">
+    </mat-form-field>
+
+
+
+
+
+    <button mat-flat-button>Створити профіль</button>
   </form>
-  <a mat-button routerLink="/auth/login">Login</a>
+  <a class="form__link" mat-button routerLink="/auth/login">Увійти в існуючий профіль</a>
 </div>

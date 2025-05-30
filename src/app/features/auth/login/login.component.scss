@@ -1,7 +1,17 @@
+:host {
+  background-color: #f5f3fb;
+  padding: 0 15px;
+  border-radius: 10px;
+}
+
 .form {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+
+  &__name {
+    margin-bottom: 30px;
+  }
 
   &__wrapper {
     border-radius: 5px;
@@ -9,6 +19,14 @@
   }
 
   &__field {
-    margin-bottom: 10px;
+
+    min-width: 280px;
+    &:not(:last-of-type) {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__link {
+    font-size: 12px;
   }
 }

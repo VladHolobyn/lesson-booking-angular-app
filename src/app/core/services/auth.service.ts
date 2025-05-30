@@ -10,20 +10,17 @@ import {RegisterRequest} from '../models/auth/register-request';
   providedIn: 'root'
 })
 export class AuthService {
-
-  private apiUrl = 'http://localhost:8080';
   private user?: User;
-
   constructor(private http: HttpClient) { }
 
 
   register(userData: RegisterRequest): Observable<any> {
-    return this.http.post(`/auth/register`, userData);
+    return this.http.post(`api/auth/register`, userData);
   }
 
   login(data: LoginRequest){
     return new Observable<void>((observer) => {
-      this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, data).subscribe({
+      this.http.post<AuthResponse>(`api/auth/login`, data).subscribe({
         next: (response) => {
           this.user = response.user;
           observer.next();

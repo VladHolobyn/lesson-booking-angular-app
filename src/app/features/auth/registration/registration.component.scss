@@ -1,7 +1,18 @@
+:host {
+  background-color: #f5f3fb;
+  padding: 0 15px;
+  border-radius: 10px;
+}
+
 .form {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 10px;
+
+  &__name {
+    margin-bottom: 30px;
+  }
 
   &__wrapper {
     border-radius: 5px;
@@ -9,6 +20,11 @@
   }
 
   &__field {
-    margin-bottom: 10px;
+    min-width: 280px;
+  }
+
+  &__link {
+    margin-top: 15px;
+    font-size: 12px;
   }
 }

@@ -1,28 +1,25 @@
 <div class="form__wrapper">
-  <h1 class="form__name">Login</h1>
+  <h1 class="form__name page-title">Авторизація</h1>
   <form class="form" [formGroup]="form" (submit)="onSubmit()">
 
     <mat-form-field appearance="outline" class="form__field" >
-      <mat-label>Email</mat-label>
+      <mat-label>Пошта</mat-label>
       <input matInput formControlName="email" placeholder="test@pnu.edu.ua">
       <mat-icon matSuffix>email</mat-icon>
       @if (form.get('email')?.invalid) {
-        <mat-error>Invalid email</mat-error>
+        <mat-error>Невалідний емайл</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form__field" >
-      <mat-label>Enter your password</mat-label>
+      <mat-label>Пароль</mat-label>
       <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'" />
-      <button
-        mat-icon-button matSuffix
-        (click)="togglePassword($event)"
-      >
+      <button mat-icon-button matSuffix (click)="togglePassword($event)">
         <mat-icon>{{showPassword ? 'visibility': 'visibility_off'}}</mat-icon>
       </button>
     </mat-form-field>
 
-    <button mat-flat-button>Submit</button>
+    <button mat-flat-button>Логін</button>
   </form>
-  <a mat-button routerLink="/auth/register">Register a new account</a>
+  <a class="form__link" mat-button routerLink="/auth/register">Створити новий профіль</a>
 </div>
