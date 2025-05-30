@@ -5,6 +5,7 @@ import {UserRole} from '../../models/auth/user-role';
 import {User} from '../../models/auth/user.interface';
 import {SlotRequest} from '../../models/bookings/slot-request.interface';
 import {Slot, SlotState} from '../../models/bookings/slot.interface';
+import {CourseRequest} from "../../models/courses/course-request.interface";
 import {CourseState} from '../../models/courses/course-state';
 import {Course} from '../../models/courses/course.interface';
 import {Invitation} from '../../models/students/invitation.interface';
@@ -99,6 +100,22 @@ export class InMemoryDataService implements InMemoryDbService {
       return reqInfo.utils.createResponse$(() => ({
         status: 200,
         body: {}
+      }));
+    }
+    else if (url.endsWith('/courses')) {
+      const body = reqInfo.utils.getJsonBody(req) as CourseRequest;
+      const courses =  (reqInfo.utils.getDb() as any).courses;
+      const id = courses.length+1
+
+      const newCourse = {
+        id,
+        name: body.name, description: body.description, state: CourseState.DRAFT,
+        instructor: (reqInfo.utils.getDb() as any).users[0]
+      };
+      courses.push(newCourse);
+      return reqInfo.utils.createResponse$(() => ({
+        status: 201,
+        body: id
       }));
     }
     else if (url.endsWith('/archive')) {

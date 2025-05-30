@@ -28,23 +28,18 @@ import {Course} from '../../../../core/models/courses/course.interface';
   styleUrl: './course-dialog.component.scss'
 })
 export class CourseDialogComponent implements OnInit{
+  dialogRef = inject(MatDialogRef<CourseDialogComponent>);
+  data?: Course = inject(MAT_DIALOG_DATA);
 
   form: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required)
-  })
+  });
 
-  data?: Course = inject(MAT_DIALOG_DATA);
-  constructor(
-    private dialogRef: MatDialogRef<CourseDialogComponent>
-  ) {}
 
   ngOnInit() {
-
     if (this.data) {
-      this.form.patchValue({
-        ...this.data
-      })
+      this.form.patchValue({...this.data});
     }
   }
 

@@ -1,18 +1,18 @@
-<h2 mat-dialog-title>Course information</h2>
+<h2 mat-dialog-title>Інформація про курс</h2>
 <mat-dialog-content>
   <form class="form" [formGroup]="form">
     <mat-form-field class="form__field">
-      <mat-label>Name</mat-label>
+      <mat-label>Назва</mat-label>
       <input matInput formControlName="name" type="text" />
     </mat-form-field>
 
     <mat-form-field class="form__field textarea">
-      <mat-label>Description</mat-label>
+      <mat-label>Опис</mat-label>
       <textarea matInput formControlName="description" type="text"></textarea>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="closeDialog()">Close</button>
-  <button mat-button (click)="submit()">Submit</button>
+  <button mat-button (click)="closeDialog()">Закрити</button>
+  <button mat-button (click)="submit()">Створити/Оновити</button>
 </mat-dialog-actions>

@@ -63,7 +63,7 @@
               <div class="aside__list">
                 @for (invitation of invitations; track invitation.id) {
                   <div class="user-card invitation">
-                    <img class="user-card__image" src="assets/generic-avatar.svg" alt="avatar">
+                    <img class="user-card__image" src="../../../assets/generic-avatar.svg" alt="avatar">
                     <div class="">
                       <p class="user-card__name">{{invitation.student.firstName}} {{invitation.student.lastName}}</p>
                       <span class="invitation-date">Запрошено {{getDate(invitation.sentAt).toLocaleDateString()}}</span>
@@ -105,7 +105,7 @@
               <div class="aside__list">
                 @for (student of students; track student.id) {
                   <div class="user-card student {{selectedStudent?.id === student.id && 'active'}}" (click)="selectStudent(student)">
-                    <img class="user-card__image" src="assets/generic-avatar.svg" alt="avatar">
+                    <img class="user-card__image" src="../../../assets/generic-avatar.svg" alt="avatar">
                     <span class="user-card__name">{{student.student.firstName}} {{student.student.lastName}}</span>
 
                     <div class="user-card__actions">

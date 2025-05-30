@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import {authGuard} from './core/guards/auth-guard.guard';
 import {UserRole} from './core/models/auth/user-role';
 import {BookingComponent} from './features/booking/booking.component';
-import {CourseDetailsComponent} from './features/courses/course-details/course-details.component';
+import {CourseDetailsComponent} from './features/course-details/course-details.component';
 import {CoursesComponent} from './features/courses/courses.component';
 import {LoginComponent} from './features/auth/login/login.component';
 import {RegistrationComponent} from './features/auth/registration/registration.component';

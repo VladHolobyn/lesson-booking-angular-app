@@ -1,10 +1,10 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatOption, MatRipple} from '@angular/material/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIcon} from '@angular/material/icon';
 import {MatFormField, MatLabel} from '@angular/material/input';
-import {MatSelect} from '@angular/material/select';
+import {MatSelect, MatSelectChange} from '@angular/material/select';
 import {RouterLink} from '@angular/router';
 import {UserRole} from '../../core/models/auth/user-role';
 import {CoursePreview} from '../../core/models/courses/course-preview.interface';
@@ -34,14 +34,23 @@ import {CourseDialogComponent} from './dialogs/course-dialog/course-dialog.compo
 })
 export class CoursesComponent implements OnInit{
   protected readonly UserRole = UserRole;
+  protected readonly CourseState = CourseState;
 
   readonly courseService: CourseService = inject(CourseService)
-  readonly dialog = inject(MatDialog);
   readonly authService = inject(AuthService);
-
-  courseList?: CoursePreview[]
   readonly responsiveService = inject(ResponsiveService);
+  readonly dialog = inject(MatDialog);
+
   showFilters: boolean = true;
+
+  courses = signal<CoursePreview[]>([]);
+  selectedStates = signal<CourseState[]>([]);
+  filteredList = computed(() => {
+    if (!this.selectedStates().length) return this.courses();
+    else return this.courses().filter(c => this.selectedStates().includes(c.state))
+  })
+
+
 
   ngOnInit() {
     this.loadData();
@@ -53,7 +62,7 @@ export class CoursesComponent implements OnInit{
         if (value) {
           this.courseService.createCourse(value).subscribe({
             next: () => this.loadData(),
-            error: () => console.error("course create")
+            error: () => console.error("Course is not created")
           })
         }
       }
@@ -72,10 +81,12 @@ export class CoursesComponent implements OnInit{
 
   private loadData() {
     this.courseService.getUserCourses().subscribe({
-      next: value => this.courseList = value,
+      next: value => this.courses.set(value),
       error: () => console.error("Unable to get user courses")
     })
   }
 
-  protected readonly CourseState = CourseState;
+  stateSelected($event: MatSelectChange<any>) {
+    this.selectedStates.set($event.value);
+  }
 }

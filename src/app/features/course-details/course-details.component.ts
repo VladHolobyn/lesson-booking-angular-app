@@ -6,22 +6,22 @@ import {MatIcon} from '@angular/material/icon';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {UserRole} from '../../../core/models/auth/user-role';
-import {CourseRequest} from '../../../core/models/courses/course-request.interface';
-import {CourseState} from '../../../core/models/courses/course-state';
-import {Course} from '../../../core/models/courses/course.interface';
-import {Invitation} from '../../../core/models/students/invitation.interface';
-import {EnrollmentState, Student} from '../../../core/models/students/student.interface';
-import {AuthService} from '../../../core/services/auth.service';
-import {CourseService} from '../../../core/services/course.service';
-import {MembershipService} from '../../../core/services/membership.service';
-import {ResponsiveService} from '../../../core/services/ui/responsive.service';
-import {CourseStateComponent} from '../../../shared/course-state/course-state.component';
+import {UserRole} from '../../core/models/auth/user-role';
+import {CourseRequest} from '../../core/models/courses/course-request.interface';
+import {CourseState} from '../../core/models/courses/course-state';
+import {Course} from '../../core/models/courses/course.interface';
+import {Invitation} from '../../core/models/students/invitation.interface';
+import {EnrollmentState, Student} from '../../core/models/students/student.interface';
+import {AuthService} from '../../core/services/auth.service';
+import {CourseService} from '../../core/services/course.service';
+import {MembershipService} from '../../core/services/membership.service';
+import {ResponsiveService} from '../../core/services/ui/responsive.service';
+import {CourseStateComponent} from '../../shared/course-state/course-state.component';
 import {
   ConfirmDialogComponent
-} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
-import {CourseDialogComponent} from '../dialogs/course-dialog/course-dialog.component';
-import {InvitationDialogComponent} from '../dialogs/invitation-dialog/invitation-dialog.component';
+} from '../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import {CourseDialogComponent} from '../courses/dialogs/course-dialog/course-dialog.component';
+import {InvitationDialogComponent} from './dialogs/invitation-dialog/invitation-dialog.component';
 
 
 
