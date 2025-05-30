@@ -1,10 +1,10 @@
-<h2 mat-dialog-title>Create new slot</h2>
+<h2 mat-dialog-title>Інформація про заняття</h2>
 <mat-dialog-content>
   <form class="form" [formGroup]="form">
 
     <div class="form__row">
       <mat-form-field class="form__course-select">
-        <mat-label>Select a course</mat-label>
+        <mat-label>Курс</mat-label>
         <mat-select formControlName="courseId">
           @for (course of courses; track course.id) {
             @if (course.state == CourseState.APPROVED) {
@@ -16,14 +16,14 @@
     </div>
     <div class="form__row">
       <mat-form-field class="form__datepicker" appearance="outline">
-        <mat-label>Practice date</mat-label>
+        <mat-label>Дата</mat-label>
         <input matInput [matDatepicker]="datepicker" [min]="today" formControlName="date">
         <mat-datepicker #datepicker/>
         <mat-datepicker-toggle [for]="datepicker" matIconSuffix/>
       </mat-form-field>
 
       <mat-form-field class="form__timepicker" appearance="outline">
-        <mat-label>From:</mat-label>
+        <mat-label>Початок:</mat-label>
         <input matInput [matTimepicker]="timepicker"  formControlName="startTime">
         <mat-timepicker #timepicker/>
         <mat-timepicker-toggle [for]="timepicker" matIconSuffix/>
@@ -32,7 +32,7 @@
       <mat-icon style="margin-bottom: 18px;">horizontal_rule</mat-icon>
 
       <mat-form-field class="form__timepicker" appearance="outline">
-        <mat-label>To:</mat-label>
+        <mat-label>Кінець:</mat-label>
         <input matInput [matTimepicker]="timepicker2" formControlName="endTime">
         <mat-timepicker #timepicker2/>
         <mat-timepicker-toggle [for]="timepicker2" matIconSuffix/>
@@ -41,6 +41,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="false">Close</button>
-  <button mat-button cdkFocusInitial (click)="submit()">Submit</button>
+  <button mat-button [mat-dialog-close]="false">Закрити</button>
+  <button mat-button cdkFocusInitial (click)="submit()">Додати/Оновити</button>
 </mat-dialog-actions>

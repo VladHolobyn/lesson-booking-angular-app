@@ -39,6 +39,10 @@ import {MembershipService} from '../../../../core/services/membership.service';
   styleUrl: './student-search-dialog.component.scss'
 })
 export class StudentSearchDialogComponent {
+  membershipService= inject(MembershipService)
+  data? = inject(MAT_DIALOG_DATA);
+  dialogRef = inject(MatDialogRef<StudentSearchDialogComponent>);
+
   form: FormGroup = new FormGroup({
     email: new FormControl('', Validators.required),
   })
@@ -46,11 +50,6 @@ export class StudentSearchDialogComponent {
   filteredUsers = signal<UserShort[]>([])
   selectedUser?: UserShort;
 
-  data?: any = inject(MAT_DIALOG_DATA);
-  membershipService= inject(MembershipService)
-  constructor(
-    private dialogRef: MatDialogRef<StudentSearchDialogComponent>,
-  ) {}
 
   onInput() {
     if (this.data.courseId) {

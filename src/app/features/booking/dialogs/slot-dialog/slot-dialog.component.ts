@@ -53,7 +53,12 @@ import {CourseService} from '../../../../core/services/course.service';
   styleUrl: './slot-dialog.component.scss'
 })
 export class SlotDialogComponent implements OnInit{
+  protected readonly CourseState = CourseState;
   readonly today: Date = new Date();
+
+  readonly data?: Slot = inject(MAT_DIALOG_DATA);
+  readonly dialogRef: MatDialogRef<SlotDialogComponent> = inject(MatDialogRef<SlotDialogComponent>)
+  readonly courseService: CourseService = inject(CourseService);
 
   form = new FormGroup({
     date: new FormControl(this.today, Validators.required),
@@ -65,9 +70,6 @@ export class SlotDialogComponent implements OnInit{
 
   courses: CoursePreview[] = []
 
-  readonly data?: Slot = inject(MAT_DIALOG_DATA);
-  readonly dialogRef: MatDialogRef<SlotDialogComponent> = inject(MatDialogRef<SlotDialogComponent>)
-  readonly courseService: CourseService = inject(CourseService);
 
   ngOnInit() {
     this.courseService.getUserCourses().subscribe({
@@ -103,5 +105,4 @@ export class SlotDialogComponent implements OnInit{
     }
   }
 
-  protected readonly CourseState = CourseState;
 }

@@ -295,7 +295,7 @@ export class InMemoryDataService implements InMemoryDbService {
           if (this.currentUser?.role === UserRole.INSTRUCTOR) {
             include &&= slot.instructor.id === this.currentUser.id;
           } else {
-            include &&= (slot.student.id === this.currentUser?.id || slot.state === SlotState.PUBLISHED);
+            include &&= (slot?.student?.id === this.currentUser?.id || slot.state === SlotState.PUBLISHED);
           }
 
           return include;

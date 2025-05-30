@@ -92,7 +92,14 @@ export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionSt
 export class BookingComponent implements OnInit{
   protected readonly UserRole = UserRole;
   protected readonly SlotState = SlotState;
-  readonly days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+  protected readonly CourseState = CourseState;
+  protected readonly days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+
+  readonly bookingService: BookingService = inject(BookingService);
+  readonly authService: AuthService = inject(AuthService);
+  readonly courseService: CourseService = inject(CourseService);
+  readonly dialog = inject(MatDialog);
+  readonly responsiveService = inject(ResponsiveService);
 
   dateRange = new FormGroup({
     start: new FormControl<Date>(new Date(), Validators.required),
@@ -102,11 +109,6 @@ export class BookingComponent implements OnInit{
   slots: Map<string, ScheduleItem[]> = new Map();
   courses: CoursePreview[] = []
 
-  readonly bookingService: BookingService = inject(BookingService);
-  readonly authService: AuthService = inject(AuthService);
-  readonly courseService: CourseService = inject(CourseService);
-  readonly dialog = inject(MatDialog);
-  readonly responsiveService = inject(ResponsiveService);
 
   ngOnInit() {
     const today = new Date();
@@ -157,7 +159,6 @@ export class BookingComponent implements OnInit{
   handleEditDialog(slot: Slot) {
     this.dialog.open(SlotDialogComponent, {data: slot}).afterClosed().subscribe({
       next: value => {
-
         if (value) {
           const body: SlotRequest = {
             courseId: value.courseId,
@@ -197,7 +198,10 @@ export class BookingComponent implements OnInit{
   }
 
   assignPerson(slot: Slot) {
-    this.dialog.open(StudentSearchDialogComponent, {data: {courseId: slot.course.id}}).afterClosed().subscribe({
+    this.dialog.open(StudentSearchDialogComponent, {
+      data: {courseId: slot.course.id},
+      width: '400px'
+    }).afterClosed().subscribe({
       next: value => {
         if (value) {
           this.bookingService.assignStudent(slot.id, value.id).subscribe({
@@ -219,8 +223,6 @@ export class BookingComponent implements OnInit{
       }
     })
   }
-
-  //  student
 
   reserve(slotId: number) {
     this.dialog.open(ConfirmDialogComponent).afterClosed().subscribe({
@@ -261,13 +263,12 @@ export class BookingComponent implements OnInit{
 
   private loadSlots() {
     if (this.dateRange.valid) {
-      forkJoin({
-        lessons: this.bookingService.getSlots(this.dateRange.value.start!, this.dateRange.value.end!)
-      }).pipe(
-        map(({ lessons }) => {
+
+      this.bookingService.getSlots(this.dateRange.value.start!, this.dateRange.value.end!).subscribe({
+        next: value => {
           this.slots = new Map();
 
-          for (const slot of lessons) {
+          for (const slot of value) {
             const day = slot.startTime.split('T')[0];
 
             if (!this.slots.has(day)) {
@@ -282,30 +283,13 @@ export class BookingComponent implements OnInit{
           const sortedEntries = Array.from(this.slots.entries()).sort(([keyA], [keyB]) => {
             return new Date(keyA).getTime() - new Date(keyB).getTime();
           });
-
           this.slots = new Map(sortedEntries);
-
           for (const [day, slots] of this.slots) {
             slots.sort((a, b) => a.startTime.localeCompare(b.startTime));
           }
-
-          return this.slots
-        })
-      ).subscribe();
+        }
+      })
     }
   }
 
-  protected readonly CourseState = CourseState;
-
-
-  selectedCourseId?: number;
-
-
-
-
-
-  selectedPreferenceId?: number;
-  selectPreference(id: number) {
-    this.selectedPreferenceId = id;
-  }
 }
