@@ -1,11 +1,11 @@
-<h2 mat-dialog-title>Inbox</h2>
+<h2 mat-dialog-title>Запрошення</h2>
 <mat-dialog-content>
   <div class="inbox-list">
     @for (invitation of invitations; track invitation.id) {
       <div class="invitation">
         <span class="invitation__date">{{invitation.sentAt}}</span>
         <span class="invitation__sender">{{invitation.instructor.firstName}} {{invitation.instructor.lastName}}</span>
-        invites you to the course:
+        запрошує на курс:
         <span class="invitation__course">{{invitation.course.name}}</span>
         <div class="invitation__actions">
           <button mat-icon-button (click)="acceptInvitation(invitation.id)">
@@ -16,9 +16,7 @@
           </button>
         </div>
       </div>
-      <mat-divider></mat-divider>
     }
-
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

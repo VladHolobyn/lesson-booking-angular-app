@@ -1,6 +1,5 @@
-<mat-sidenav-container class="container" [hasBackdrop]="false"  autosize>
-  <mat-sidenav opened [mode]="sidenavMode()" class="sidenav"
-  [ngClass]="{active: isOpened}">
+<mat-sidenav-container class="container" [hasBackdrop]="false" autosize>
+  <mat-sidenav opened [mode]="sidenavMode()" class="sidenav" [ngClass]="{active: isOpened}">
     <div class="sidenav__user-section">
       <app-user [isShort]="!isOpened" [ngClass]="{opened: isOpened}"></app-user>
       @if (!responsiveService.isPhoneScreen()) {
@@ -13,14 +12,6 @@
       }
     </div>
     <ul class="sidenav__navigation">
-      <li class="sidenav__navigation-btn">
-        <a class="centered-button" [ngClass]="{opened: isOpened}" mat-button [disableRipple]="true"
-           routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{ exact: true }">
-          <mat-icon class="centered-button-icon">home</mat-icon>
-          Головна
-        </a>
-      </li>
-
       <li class="sidenav__navigation-btn">
         <a class="centered-button" [ngClass]="{opened: isOpened}" mat-button [disableRipple]="true" routerLinkActive="active" routerLink="/courses">
           <mat-icon class="centered-button-icon">school</mat-icon>

@@ -8,15 +8,14 @@ import {
   MatDialogContent,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {MatDivider} from '@angular/material/divider';
 import {MatIcon} from '@angular/material/icon';
 import {Router} from '@angular/router';
-import {Invitation} from '../../../core/models/students/invitation.interface';
-import {AuthService} from '../../../core/services/auth.service';
-import {MembershipService} from '../../../core/services/membership.service';
+import {Invitation} from '../../core/models/students/invitation.interface';
+import {AuthService} from '../../core/services/auth.service';
+import {MembershipService} from '../../core/services/membership.service';
 import {
   ConfirmDialogComponent
-} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+} from '../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
   imports: [
@@ -29,18 +28,16 @@ import {
     MatButton,
     MatIconButton,
     MatIcon,
-    MatDivider,
   ],
   selector: 'app-inbox-dialog',
   styleUrl: './inbox-dialog.component.scss',
   templateUrl: './inbox-dialog.component.html'
 })
 export class InboxDialogComponent implements OnInit{
-
-  authService = inject(AuthService)
-  membershipService = inject(MembershipService)
-  dialog = inject(MatDialog)
-  router = inject(Router)
+  readonly authService = inject(AuthService)
+  readonly membershipService = inject(MembershipService)
+  readonly dialog = inject(MatDialog)
+  readonly router = inject(Router)
 
   invitations?: Invitation[]
 
@@ -71,7 +68,6 @@ export class InboxDialogComponent implements OnInit{
       }
     })
   }
-
 
   private loadInvitations() {
     this.membershipService.getUserInvitations(this.authService.getCurrentUser()!.id).subscribe({

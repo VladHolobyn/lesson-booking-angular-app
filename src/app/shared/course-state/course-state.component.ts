@@ -13,10 +13,11 @@ import {EnrollmentState} from '../../core/models/students/student.interface';
   styleUrl: './course-state.component.scss'
 })
 export class CourseStateComponent {
-  @Input() state?: CourseState;
-  @Input() studentState?: EnrollmentState;
-  @Input() slotState?: SlotState;
   protected readonly CourseState = CourseState;
   protected readonly EnrollmentState = EnrollmentState;
   protected readonly SlotState = SlotState;
+
+  @Input() state?: CourseState;
+  @Input() studentState?: EnrollmentState;
+  @Input() slotState?: SlotState;
 }

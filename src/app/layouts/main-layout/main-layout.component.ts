@@ -8,7 +8,7 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {UserRole} from '../../core/models/auth/user-role';
 import {AuthService} from '../../core/services/auth.service';
 import {ResponsiveService} from '../../core/services/ui/responsive.service';
-import {InboxDialogComponent} from '../../features/inbox/inbox-dialog/inbox-dialog.component';
+import {InboxDialogComponent} from '../../features/inbox/inbox-dialog.component';
 import {UserComponent} from '../../shared/user/user.component';
 
 @Component({
@@ -32,18 +32,11 @@ export class MainLayoutComponent {
   protected readonly UserRole = UserRole;
 
   readonly authService = inject(AuthService);
+  readonly responsiveService = inject(ResponsiveService)
   readonly dialog = inject(MatDialog);
-  responsiveService = inject(ResponsiveService)
-
 
   isOpened: boolean = false
-
-  sidenavMode = computed(() => {
-    if (this.responsiveService.isPhoneScreen()) {
-      return 'over'
-    }
-    return 'side'
-  })
+  sidenavMode = computed(() => this.responsiveService.isPhoneScreen() ? 'over' : 'side')
 
   openInboxDialog() {
     this.dialog.open(InboxDialogComponent, {

@@ -22,7 +22,8 @@ export const routes: Routes = [
     path: '', component: MainLayoutComponent,
     canActivate:[authGuard], data: { roles: [UserRole.INSTRUCTOR, UserRole.STUDENT]},
     children: [
-      { path: '', component: CoursesComponent, data: { roles: [UserRole.INSTRUCTOR, UserRole.STUDENT] }},
+      { path: '', redirectTo: '/courses', pathMatch: 'full' },
+      { path: 'courses', component: CoursesComponent, data: { roles: [UserRole.INSTRUCTOR, UserRole.STUDENT] }},
       { path: 'courses/:id' , component: CourseDetailsComponent, data: { roles: [UserRole.INSTRUCTOR, UserRole.STUDENT] }},
       { path: 'booking', component: BookingComponent, data: { roles: [UserRole.INSTRUCTOR, UserRole.STUDENT] }},
     ]

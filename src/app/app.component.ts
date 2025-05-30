@@ -15,5 +15,5 @@ import { RouterOutlet } from '@angular/router';
   ]
 })
 export class AppComponent {
-  title = 'driving-instructor-ui';
+  title = 'booking-ui';
 }

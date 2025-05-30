@@ -15,17 +15,18 @@ import {AuthService} from '../../core/services/auth.service';
   styleUrl: './user.component.scss'
 })
 export class UserComponent {
+  protected readonly UserRole = UserRole;
+
+  readonly authService = inject(AuthService);
+  readonly router = inject(Router)
 
   @Input()
   isShort: boolean = true;
 
-  authService = inject(AuthService);
-  router = inject(Router)
 
-  logOut() {
+  logout() {
     this.authService.logout();
     this.router.navigate(['auth', 'login'])
   }
 
-  protected readonly UserRole = UserRole;
 }
