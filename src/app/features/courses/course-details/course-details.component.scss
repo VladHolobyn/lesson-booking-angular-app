@@ -1,0 +1,267 @@
+:host {
+  max-height: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+.aside {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  &__list{
+    overflow-y: auto;
+    padding-right: 6px;
+    flex: 1;
+
+    &-wrapper {
+      flex: 1;
+      overflow-y: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 100%;
+      height: 100%;
+
+      mat-paginator {
+        background-color: transparent;
+      }
+    }
+    &-header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+    }
+    &-named-header{
+      display: flex;
+      gap: 5px;
+      flex-direction: column;
+      margin: 18px 0 10px 0;
+    }
+    &-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+  }
+
+  &__card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 450px;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    &-data {
+      display: flex;
+      flex-direction: column;
+    }
+    &-data-row {
+      display: flex;
+      align-items: center;
+    }
+    &-name {
+      margin: 0;
+    }
+    &-params {
+      margin-top: 5px;
+      display: flex;
+      gap: 6px;
+      mat-chip span{
+        font-size: 13px;
+      }
+      mat-icon {
+        height: 18px;
+        width: 18px;
+        font-size: 18px;
+      }
+    }
+    &-order{
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    &.active {
+      background-color: rgb(230, 236, 248);
+    }
+  }
+
+  &.close {
+    margin-left: -90%;
+    transition: all 400ms;
+  }
+}
+
+.students {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.invitations {
+  max-height: 235px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  app-course-state {
+    margin-top: 5px;
+    display: block;
+  }
+}
+
+
+.main-content {
+  display: flex;
+  flex: 2;
+  padding-left: 15px;
+
+  app-map {
+    border-radius: 10px;
+    display: block;
+    height: 100%;
+    flex: 1;
+  }
+
+  app-skill-map {
+    flex: 1;
+  }
+
+  app-student-course-progress {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    flex:1;
+  }
+}
+
+.page {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+
+  ::ng-deep {
+    .mat-tab-body, .mat-mdc-tab-body-content {
+      overflow-y: hidden;
+    }
+
+    .mat-mdc-tab-body-wrapper {
+      flex: 1;
+    }
+  }
+}
+
+.list-title {
+  margin: 0 0 0 0;
+}
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 450px;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  &__name{
+    margin: 0 0 4px 0;
+  }
+
+  .invitation-date {
+    font-size: 14px;
+    color: var(--secondary-text);
+  }
+
+  &__actions {
+    margin-left: auto;
+  }
+  &.active{
+    background-color: rgb(230, 236, 248);
+  }
+  &.student {
+    cursor: pointer;
+  }
+}
+
+
+/* Phones */
+@media (max-width: 599px) {
+  .header {
+    app-course-state {
+      margin-top: 2px;
+    }
+  }
+  .user-card {
+    max-width: 100%;
+  }
+  .aside {
+    --mat-tab-header-label-text-size: 13px;
+    &__card-name {
+      font-size: 14px;
+    }
+    &__card-order {
+      margin-right: 8px;
+    }
+    &__card-params {
+      mat-chip span{
+        font-size: 12px;
+        gap: 2px;
+      }
+    }
+  }
+  .header__row_centered {
+    margin-bottom: 5px;
+  }
+
+}
+
+/* Tablets */
+@media (max-width: 839.98px) {
+  :host {
+    --mat-paginator-container-size: 40px;
+  }
+  .user-card {
+    &__name {
+      margin-bottom: 0;
+    }
+    .invitation-date {
+      font-size: 13px;
+    }
+  }
+
+  .page-title {
+    font-size: 22px;
+  }
+}
+
+/* Desktops */
+@media (max-width: 1023px) {
+  .main-content {
+    padding-left: 0;
+    width: 100%;
+    min-width: 100%;
+    flex-direction: column;
+    app-student-course-progress, app-skill-map, app-map {
+      margin-left: 8px;
+      max-width: 100%;
+    }
+  }
+  .aside {
+    min-width: 90%;
+  }
+
+  .aside__list-named-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

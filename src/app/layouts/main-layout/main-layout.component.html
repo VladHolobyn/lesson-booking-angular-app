@@ -1,0 +1,48 @@
+<mat-sidenav-container class="container" [hasBackdrop]="false"  autosize>
+  <mat-sidenav opened [mode]="sidenavMode()" class="sidenav"
+  [ngClass]="{active: isOpened}">
+    <div class="sidenav__user-section">
+      <app-user [isShort]="!isOpened" [ngClass]="{opened: isOpened}"></app-user>
+      @if (!responsiveService.isPhoneScreen()) {
+        <button class="header__button" [ngClass]="{opened: isOpened}" mat-button (click)="openInboxDialog()">
+          <mat-icon>mail</mat-icon>
+          @if (isOpened) {
+            Запрошення
+          }
+        </button>
+      }
+    </div>
+    <ul class="sidenav__navigation">
+      <li class="sidenav__navigation-btn">
+        <a class="centered-button" [ngClass]="{opened: isOpened}" mat-button [disableRipple]="true"
+           routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon class="centered-button-icon">home</mat-icon>
+          Головна
+        </a>
+      </li>
+
+      <li class="sidenav__navigation-btn">
+        <a class="centered-button" [ngClass]="{opened: isOpened}" mat-button [disableRipple]="true" routerLinkActive="active" routerLink="/courses">
+          <mat-icon class="centered-button-icon">school</mat-icon>
+          Курси
+        </a>
+      </li>
+      <li class="sidenav__navigation-btn">
+        <a class="centered-button" [ngClass]="{opened: isOpened}" mat-button [disableRipple]="true" routerLinkActive="active" routerLink="/booking">
+          <mat-icon class="centered-button-icon">calendar_month</mat-icon>
+          Записи
+        </a>
+      </li>
+
+    </ul>
+
+    @if (!responsiveService.isPhoneScreen()) {
+      <button class="sidenav__toggle_btn" [ngClass]="{opened: isOpened}" [disableRipple]="true" mat-icon-button (click)="isOpened= !isOpened">
+        <mat-icon>menu_open</mat-icon>
+      </button>
+    }
+  </mat-sidenav>
+  <mat-sidenav-content class="main">
+    <router-outlet/>
+  </mat-sidenav-content>
+</mat-sidenav-container>

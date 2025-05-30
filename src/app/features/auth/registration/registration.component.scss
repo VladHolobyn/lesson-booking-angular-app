@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+
+  &__wrapper {
+    border-radius: 5px;
+    padding: 25px;
+  }
+
+  &__field {
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,22 @@
+.invitation{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+
+  &__date{
+    padding: 0 10px;
+  }
+  &__sender, .invitation__course {
+    min-width: 150px;
+    text-align: center;
+    border: 1px solid #000;
+    padding: 10px;
+    border-radius: 15px;
+  }
+
+  &__actions{
+    margin-left: auto;
+    display: flex;
+  }
+}

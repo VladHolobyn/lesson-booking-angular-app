@@ -1,0 +1,32 @@
+span {
+  &.approved {
+    padding: 3px 15px;
+    border-radius: 5px;
+    background-color: #b2e1e8;
+    color: #15616D;
+  }
+
+  &.draft {
+    padding: 3px 15px;
+    border-radius: 5px;
+    background-color: #ffd89f;
+    color: #a2691c;
+  }
+
+  &.archived {
+    padding: 3px 15px;
+    border-radius: 5px;
+    background-color: #d2cfcf;
+    color: #0F1108;
+  }
+}
+
+/* Phones */
+@media (max-width: 599px) {}
+
+/* Tablets */
+@media (max-width: 839.98px) {
+  span {
+    font-size: 14px;
+  }
+}

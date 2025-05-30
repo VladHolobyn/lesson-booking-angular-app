@@ -1,0 +1,17 @@
+.form {
+  &__row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  &__course-select {
+    flex: 2;
+  }
+  &__datepicker {
+    flex: 2;
+  }
+  &__timepicker{
+    flex: 1;
+  }
+}

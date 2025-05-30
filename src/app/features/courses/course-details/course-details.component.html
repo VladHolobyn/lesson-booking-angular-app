@@ -1,0 +1,127 @@
+@if (course) {
+  <div class="aside" [ngClass]="{close: isToggle}">
+    <header class="header" style="margin-bottom: 0">
+      <div class="header__row header__row_centered">
+        <button class="icon-stroked-button" mat-stroked-button routerLink="/">
+          <mat-icon class="stroked-button-icon">keyboard_backspace</mat-icon>
+        </button>
+        <div>
+          <h1 class="page-title">{{ course.name }}</h1>
+          <app-course-state [state]="course.state"/>
+        </div>
+
+        @if (course.state !== CourseState.ARCHIVED) {
+          <button class="header__button" mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            @if (authService.getCurrentUser()?.role === UserRole.INSTRUCTOR) {
+              @if (course.state === CourseState.DRAFT) {
+                <button class="header__button icon-stroked-button" mat-menu-item (click)="approveCourse()" >
+                  <mat-icon class="stroked-button-icon">check_circle</mat-icon> Погодити курс
+                </button>
+                <button class="header__button icon-stroked-button" mat-menu-item (click)="editCourse()" >
+                  <mat-icon class="stroked-button-icon">edit</mat-icon> Редагувати
+                </button>
+                <button class="header__button icon-stroked-button" mat-menu-item (click)="removeCourse()">
+                  <mat-icon class="stroked-button-icon">delete</mat-icon> Видалити
+                </button>
+              }
+              @if (course.state === CourseState.APPROVED) {
+                <button class="header__button icon-stroked-button" mat-menu-item (click)="archiveCourse()" >
+                  <mat-icon class="stroked-button-icon">archive</mat-icon> Архівувати
+                </button>
+              }
+            }
+          </mat-menu>
+        }
+      </div>
+    </header>
+
+    <mat-tab-group class="page" mat-stretch-tabs="false" mat-align-tabs="start">
+      @if (authService.getCurrentUser()?.role === UserRole.INSTRUCTOR && course.state != CourseState.DRAFT) {
+        <mat-tab label="Студенти">
+          <div class="aside__list-wrapper">
+            <div class="invitations">
+              <div class="aside__list-named-header">
+                <p class="list-title">Запрошення ({{invitations?.length || 0}}):</p>
+                <div class="aside__list-header-actions">
+                  @if (course.state === CourseState.APPROVED) {
+                    @if (responsiveService.isPhoneOrTabletScreen()) {
+                      <button class="icon-stroked-button" mat-stroked-button (click)="openInvitationDialog()">
+                        <mat-icon class="stroked-button-icon">person_add</mat-icon>
+                      </button>
+                    } @else {
+                      <button mat-stroked-button (click)="openInvitationDialog()">
+                        <mat-icon>person_add</mat-icon> Запросити
+                      </button>
+                    }
+                  }
+                </div>
+              </div>
+              <div class="aside__list">
+                @for (invitation of invitations; track invitation.id) {
+                  <div class="user-card invitation">
+                    <img class="user-card__image" src="assets/generic-avatar.svg" alt="avatar">
+                    <div class="">
+                      <p class="user-card__name">{{invitation.student.firstName}} {{invitation.student.lastName}}</p>
+                      <span class="invitation-date">Запрошено {{getDate(invitation.sentAt).toLocaleDateString()}}</span>
+                    </div>
+
+                    <div class="user-card__actions">
+                      <button mat-icon-button (click)="cancelInvitation(invitation.id)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="students">
+              <div class="aside__list-named-header">
+                <p class="list-title">Студенти ({{students?.length || 0 }}):</p>
+                <div class="aside__list-header-actions">
+                  @if (selectedStudent && selectedStudent.state === EnrollmentState.ACTIVE) {
+                    @if (responsiveService.isPhoneOrTabletScreen()) {
+                      <button class="icon-stroked-button" mat-stroked-button (click)="graduateStudent(selectedStudent.id)">
+                        <mat-icon  class="stroked-button-icon">verified</mat-icon>
+                      </button>
+                      <button class="icon-stroked-button" mat-stroked-button (click)="removeStudentFromCourse(selectedStudent.id)">
+                        <mat-icon  class="stroked-button-icon">person_remove</mat-icon>
+                      </button>
+                    } @else {
+                      <button mat-stroked-button (click)="graduateStudent(selectedStudent.id)">
+                        <mat-icon>verified</mat-icon> Завершити навчання
+                      </button>
+                      <button mat-stroked-button (click)="removeStudentFromCourse(selectedStudent.id)">
+                        <mat-icon>person_remove</mat-icon> Відрахувати
+                      </button>
+                    }
+
+                  }
+                </div>
+              </div>
+              <div class="aside__list">
+                @for (student of students; track student.id) {
+                  <div class="user-card student {{selectedStudent?.id === student.id && 'active'}}" (click)="selectStudent(student)">
+                    <img class="user-card__image" src="assets/generic-avatar.svg" alt="avatar">
+                    <span class="user-card__name">{{student.student.firstName}} {{student.student.lastName}}</span>
+
+                    <div class="user-card__actions">
+                      <app-course-state [studentState]="student.state"/>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      }
+    </mat-tab-group>
+  </div>
+
+
+  <div class="main-content">
+  </div>
+}

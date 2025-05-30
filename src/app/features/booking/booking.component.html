@@ -1,0 +1,153 @@
+<header class="header">
+  <div class="header__row">
+    <h1 class="page-title">Записи</h1>
+    @if (authService.getCurrentUser()?.role === UserRole.INSTRUCTOR) {
+      @if (responsiveService.isPhoneScreen()) {
+        <button class="header__button icon-stroked-button" mat-stroked-button (click)="handleCreateDialog()">
+          <mat-icon class="stroked-button-icon">add</mat-icon>
+        </button>
+      } @else {
+        <button class="header__button" mat-stroked-button (click)="handleCreateDialog()"><mat-icon>add</mat-icon>Додати</button>
+      }
+    }
+  </div>
+
+</header>
+
+<section style="height: 100%; flex: 1; overflow: hidden">
+  <mat-drawer-container style="height: 100%" [hasBackdrop]="false">
+
+    <mat-drawer-content class="calendar">
+
+      <div class="booking-table__header">
+        <mat-form-field class="booking-table__header-filter" appearance="outline">
+          <mat-label>Оберіть діапазон</mat-label>
+          <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Start date"   >
+            <input matEndDate formControlName="end" placeholder="End date" (dateChange)="handleDateRangeChange()">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="booking-table__content">
+        @for (k of slots; track k[0]) {
+          <div class="booking-table__day-card day-card">
+            <div class="day-card__title">
+              <div>{{days[getDate(k[0]).getDay()]}}</div>
+              <div class="">{{getDate(k[0]).getDate()}}</div>
+            </div>
+            <div class="day-card__slot-list">
+              @for (slot of k[1]; track slot.data.id) {
+                <div class="day-card__slot">
+                  <div class="day-card__slot-info">
+                    <div class="day-card__slot-time">
+                      <div class="">{{formatTime(slot.startTime)}}</div>
+                      <div class="">|</div>
+                      <div class="">{{formatTime(slot.endTime)}}</div>
+                    </div>
+                    <div class="">
+                      <div class="day-card__slot-status">
+                        @if (slot.data.state === SlotState.RESERVED) {
+                          <div class="day-card__slot-student">
+                            <img class="day-card__slot-student-image" src="assets/generic-avatar.svg" alt="avatar">
+                            <span class="day-card__slot-student-name">{{slot.data.student.firstName}} {{slot.data.student.lastName}}</span>
+                          </div>
+                        } @else {
+                          <app-course-state [slotState]="slot.data.state"/>
+                        }
+                      </div>
+                      <p class="day-card__slot-course"><mat-icon>school</mat-icon>{{slot.data.course.name}}</p>
+                    </div>
+                  </div>
+                  <div class="day-card__slot-actions">
+                    @if (responsiveService.isPhoneScreen()) {
+                      <button mat-icon-button [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{slot: slot}">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                    } @else {
+                      @if (authService.getCurrentUser()?.role === UserRole.INSTRUCTOR && slot.data.state !== SlotState.CANCELLED) {
+                        @if (slot.data.state === SlotState.PUBLISHED) {
+                          <button mat-icon-button (click)="assignPerson(slot.data)"><mat-icon>person_add</mat-icon></button>
+                        }
+                        @if (slot.data.state === SlotState.RESERVED) {
+                          <button mat-icon-button (click)="unassignStudent(slot.data.id)"><mat-icon>person_remove</mat-icon></button>
+                        }
+                        @if (slot.data.state === SlotState.DRAFT) {
+                          <button mat-icon-button (click)="publishSlot(slot.data.id)"><mat-icon>event_available</mat-icon></button>
+                        }
+                        <button mat-icon-button (click)="deleteOrCancel(slot.data.id)">
+                          @if (slot.data.state === SlotState.RESERVED) {
+                            <mat-icon>cancel</mat-icon>
+                          }
+                          @else  {
+                            <mat-icon>delete</mat-icon>
+                          }
+                        </button>
+                        <button mat-icon-button (click)="handleEditDialog(slot.data)"><mat-icon>edit</mat-icon></button>
+                      } @else {
+                        @if (slot.data.state === SlotState.PUBLISHED) {
+                          <button mat-icon-button (click)="reserve(slot.data.id)"><mat-icon>event_available</mat-icon></button>
+                        }
+                        @if (slot.data.state === SlotState.RESERVED) {
+                          <button mat-icon-button (click)="cancelReservation(slot.data.id)"><mat-icon>cancel</mat-icon></button>
+                        }
+                      }
+                    }
+
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+      </div>
+
+      <mat-menu #appMenu="matMenu">
+        <ng-template matMenuContent let-slot="slot">
+          @if (slot) {
+            @if (authService.getCurrentUser()?.role === UserRole.INSTRUCTOR && slot.data.state !== SlotState.CANCELLED) {
+              @if (slot.data.state === SlotState.PUBLISHED) {
+                <button mat-menu-item (click)="assignPerson(slot.data)">
+                  <mat-icon>person_add</mat-icon> Призначити
+                </button>
+              }
+              @if (slot.data.state === SlotState.RESERVED) {
+                <button mat-menu-item (click)="unassignStudent(slot.data.id)">
+                  <mat-icon>person_remove</mat-icon> Видалити запис
+                </button>
+              }
+
+              @if (slot.data.state === SlotState.DRAFT) {
+                <button mat-menu-item (click)="publishSlot(slot.data.id)">
+                  <mat-icon>event_available</mat-icon> Опублікувати запис
+                </button>
+              }
+              <button mat-menu-item (click)="deleteOrCancel(slot.data.id)">
+                @if (slot.data.state === SlotState.RESERVED) {
+                  <mat-icon>cancel</mat-icon> Відмінити запис
+                }
+                @else  {
+                  <mat-icon>delete</mat-icon> Видалити запис
+                }
+              </button>
+              <button mat-menu-item (click)="handleEditDialog(slot.data)"><mat-icon>edit</mat-icon>Редагувати</button>
+            } @else {
+              @if (slot.data.state === SlotState.PUBLISHED) {
+                <button mat-menu-item (click)="reserve(slot.data.id)">
+                  <mat-icon>event_available</mat-icon> Зарезервувати
+                </button>
+              }
+              @if (slot.data.state === SlotState.RESERVED) {
+                <button mat-menu-item (click)="cancelReservation(slot.data.id)">
+                  <mat-icon>cancel</mat-icon> Відхілити
+                </button>
+              }
+            }
+          }
+        </ng-template>
+      </mat-menu>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</section>

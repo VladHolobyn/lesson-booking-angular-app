@@ -1,0 +1,247 @@
+:host {
+  max-height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  &__button{
+    margin-left: 20px;
+    margin-right: 5px;
+  }
+}
+
+
+.booking-table {
+  &__day-card {
+    margin-bottom: 15px;
+  }
+  &__header-filter {
+    padding-top: 5px;
+  }
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+  }
+}
+
+.day-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+
+  max-width: 900px;
+
+  &__title {
+    border-right: 1px solid #000;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 60px;
+    max-width: 80px;
+    width: 100%;
+  }
+
+  &__slot-list {
+    padding-left: 10px;
+    width: 100%;
+  }
+
+  &__slot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+
+    &:not(:last-child) {
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #dddada;
+    }
+
+    &.exam {}
+  }
+
+  &__slot-info {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+  }
+
+  &__slot-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 17px;
+    gap: 4px;
+  }
+
+  &__slot-course {
+    margin: 7px 0 0 0 ;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__slot-student {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  &__slot-student-image {
+    width: 34px;
+  }
+
+  &__slot-student-name {
+    display: flex;
+    gap: 5px;
+  }
+
+}
+
+
+.preferences {
+  padding: 5px 15px 15px 15px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  &__wrapper {
+    border-radius: 0;
+    border: 0;
+  }
+
+  &__title {
+    margin: 0 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__course-select {
+    width: 100%;
+  }
+
+  mat-paginator {
+    background-color: transparent;
+  }
+}
+
+.student-preferences {
+  border-radius: 10px;
+  border: 1px solid #000;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  cursor: pointer;
+
+  &.active {
+    background-color: rgb(230, 236, 248);
+  }
+
+  &__wrapper{
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__footer{
+    display: flex;
+    align-items: center;
+  }
+
+  &__list{
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  &__student {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__image {
+    width: 30px;
+  }
+  &__text {
+    margin: 5px 0 12px 0;
+  }
+  &__name {
+    font-size: 15px;
+  }
+
+  &__actions {
+    margin-top: 6px;
+  }
+}
+
+.calendar, .preferences, mat-drawer {
+  background-color: #f4f2fa;
+}
+.calendar {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Phones */
+@media (max-width: 599px) {
+  .day-card {
+    padding: 10px;
+  }
+  .day-card__slot {
+    gap: 10px;
+  }
+  .day-card__slot-info {
+    gap: 15px;
+  }
+  .day-card__title {
+    padding: 0 15px;
+    width: auto;
+    min-width: auto;
+  }
+  .day-card__slot-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .day-card__slot-time {
+    font-size: 14px;
+  }
+  .preferences__wrapper {
+    width: 100%;
+  }
+}
+
+/* Tablets */
+@media (max-width: 839.98px) {
+  .day-card__slot-list {
+    padding-left: 15px;
+  }
+  .day-card__title {
+    max-width: 60px;
+  }
+  .day-card__slot-course {
+    gap: 4px;
+    font-size: 14px;
+    margin-top: 10px;
+
+    mat-icon {
+      height: 18px;
+      width: 18px;
+      font-size: 18px;
+    }
+  }
+}

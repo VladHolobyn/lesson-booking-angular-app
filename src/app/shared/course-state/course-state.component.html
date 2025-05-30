@@ -1,0 +1,32 @@
+@if (studentState) {
+  <span [ngClass]="{
+    approved: studentState === EnrollmentState.ACTIVE,
+    archived: studentState === EnrollmentState.COMPLETED
+  }">
+  @if (studentState === EnrollmentState.ACTIVE) { Активний }
+  @else if (studentState === EnrollmentState.COMPLETED) { Завершив }
+</span>
+}
+@else if (slotState) {
+  <span [ngClass]="{
+    approved: slotState === SlotState.PUBLISHED,
+    draft: slotState === SlotState.DRAFT,
+    canceled: slotState === SlotState.CANCELLED
+  }">
+  @if (slotState === SlotState.PUBLISHED) { Опубліковано }
+  @else if (slotState === SlotState.CANCELLED) { Відхилено }
+  @else if (slotState === SlotState.DRAFT) { Чернетка }
+</span>
+}
+
+@else {
+  <span [ngClass]="{
+    approved: state === CourseState.APPROVED,
+    archived: state === CourseState.ARCHIVED,
+    draft: state === CourseState.DRAFT
+  }">
+  @if (state === CourseState.APPROVED) { Дійсний }
+  @else if (state === CourseState.ARCHIVED) { Архівований }
+  @else if (state === CourseState.DRAFT) { В розробці }
+</span>
+}

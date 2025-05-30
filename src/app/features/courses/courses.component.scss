@@ -1,0 +1,82 @@
+:host {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.courses-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  overflow-y: auto;
+  padding-right: 3px;
+}
+
+.course-card{
+  background: #fff;
+  padding: 15px 15px 10px 15px;
+  border-radius: 10px;
+  min-width: 200px;
+  max-width: 350px;
+  width: 100%;
+  cursor: pointer;
+  transition: 150ms ease-in-out;
+
+  &:hover {
+    background: #dce3fa;
+  }
+
+  &__main-content {
+    margin-bottom: 15px;
+  }
+  &__title {
+    font-weight: 500;
+    margin: 0 0 10px 0;
+  }
+  &__stats {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  &__skills-number {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+  &__footer {
+    border-top: 1px solid black;
+    padding-top: 5px;
+  }
+  &__chip-list {
+    .mat-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+}
+
+::ng-deep {
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+.state-filter {
+  max-width: 360px;
+  width: 100%;
+}
+
+@media (max-width: 599px) {
+  .courses-list {
+    gap: 10px;
+  }
+  .course-card {
+    max-width: 100%;
+  }
+}
+
+/* Tablets */
+@media (min-width: 600px) and (max-width: 839.98px) {
+
+}

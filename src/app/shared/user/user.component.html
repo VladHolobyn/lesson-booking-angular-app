@@ -1,0 +1,15 @@
+<div class="user">
+  <img class="user__image" src="../../../assets/generic-avatar.svg" alt="avatar">
+  @if (!isShort) {
+    <div class="user__info">
+      <div class="user__name">{{authService.getCurrentUser()?.firstName}} {{authService.getCurrentUser()?.lastName}}</div>
+      <div class="user__role">
+        @if (authService.getCurrentUser()?.role === UserRole.INSTRUCTOR) { Інструктор }
+        @else { Студент }
+      </div>
+    </div>
+    <button class="user__button" mat-icon-button (click)="logOut()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  }
+</div>

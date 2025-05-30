@@ -1,0 +1,96 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+  --mat-sys-background: #eeeaf9;
+  --mat-sys-primary: #3E74DE;
+  --primary-2: #0E273C;
+  --secondary-text: #676767;
+  --mdc-outlined-button-container-shape: 10px;
+  --mdc-outlined-button-outline-color: var(--primary-2);
+
+  --mdc-filled-button-container-shape: 10px;
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 5px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--mat-sys-primary);
+}
+
+.centered-button{
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  --mdc-text-button-container-height: 60px;
+  --mat-text-button-with-icon-horizontal-padding: 10px;
+  --mat-sys-corner-full: 10px;
+  &-icon {
+    margin: 0 0 7px 0;
+    --mat-text-button-icon-spacing: 0;
+    --mat-text-button-icon-offset: 0;
+  }
+}
+
+.icon-stroked-button {
+  --mat-outlined-button-horizontal-padding: 10px;
+  min-width: 45px !important;
+  .stroked-button-icon {
+    margin: 0;
+    --mat-outlined-button-icon-spacing: 0;
+    --mat-outlined-button-icon-offset: 0;
+  }
+}
+
+.page-title {
+  margin: 0;
+  font-weight: 500;
+}
+
+.header {
+  margin-bottom: 15px;
+  &__row {
+    display: flex;
+    align-items: start;
+    margin-bottom: 15px;
+  }
+  &__row_centered {
+    align-items: center;
+    gap: 10px;
+  }
+  .header__button{
+    margin-left: auto;
+  }
+}
+
+.mat-chip-with-icon span{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 599px) {
+  .header {
+    margin-bottom: 10px;
+    &__row {
+      margin-bottom: 10px;
+    }
+    .filters {
+      flex-direction: column;
+      gap: 6px;
+    }
+  }
+}
+
+/* Tablets */
+@media (min-width: 600px) and (max-width: 839.98px) {
+
+}

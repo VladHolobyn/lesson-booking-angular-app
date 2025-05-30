@@ -1,0 +1,46 @@
+<header class="header">
+  <div class="header__row">
+    <h1 class="page-title">Курси</h1>
+    @if (authService.getCurrentUser()?.role === UserRole.INSTRUCTOR) {
+      <button class="header__button" mat-stroked-button (click)="handleCreate()">
+        <mat-icon>add</mat-icon>Додати
+      </button>
+    }
+  </div>
+  <div class="header__row filters">
+    @if (responsiveService.isPhoneScreen()) {
+      <button mat-icon-button (click)="showFilters = !showFilters"><mat-icon>filter_alt</mat-icon></button>
+    }
+    @if (showFilters) {
+      <mat-form-field class="state-filter" appearance="outline">
+        <mat-label>Стан курсу:</mat-label>
+        <mat-select multiple>
+          <mat-option [value]="CourseState.DRAFT"><app-course-state [state]="CourseState.DRAFT"/></mat-option>
+          <mat-option [value]="CourseState.APPROVED"><app-course-state [state]="CourseState.APPROVED"/></mat-option>
+          <mat-option [value]="CourseState.ARCHIVED"><app-course-state [state]="CourseState.ARCHIVED"/></mat-option>
+        </mat-select>
+      </mat-form-field>
+    }
+  </div>
+
+
+</header>
+<section class="courses-list">
+  @for (course of courseList; track course.id) {
+    <div class="course-card" matRipple [routerLink]="['/courses', course.id]">
+      <div class="course-card__main-content">
+        <h3 class="course-card__title">{{ course.name }} </h3>
+        <div class="course-card__stats">
+          <app-course-state class="course-card__status" [state]="course.state" />
+          <span class="course-card__skills-number">
+
+          </span>
+        </div>
+      </div>
+      <div class="course-card__footer">
+
+      </div>
+    </div>
+  }
+</section>
+
